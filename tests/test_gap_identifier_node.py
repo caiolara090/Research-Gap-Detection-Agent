@@ -48,7 +48,11 @@ class FakeLLM:
         self.structured_llm = FakeStructuredLLM(response)
         self.structured_output_calls: list[type] = []
 
-    def with_structured_output(self, schema: type) -> FakeStructuredLLM:
+    def with_structured_output(
+        self,
+        schema: type,
+        **kwargs,
+    ) -> FakeStructuredLLM:
         self.structured_output_calls.append(schema)
         return self.structured_llm
 

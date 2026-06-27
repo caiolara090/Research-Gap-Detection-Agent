@@ -1,0 +1,160 @@
+{
+  "topic": "Self-supervised learning for medical imaging",
+  "cutoff_date": "2025-04-16",
+  "warnings": [],
+  "gaps": [
+    {
+      "research_question": "How can self-supervised learning methods for medical imaging be effectively adapted and validated for clinical settings beyond academic and research datasets?",
+      "description": "While multiple studies demonstrate the efficacy of self-supervised learning (SSL) methods on academic and research medical imaging datasets, there is a notable lack of evaluation and validation in real-world clinical environments. Limitations include geographic or disease variant specificity, lack of integration of clinical metadata, and restricted dataset diversity, which constrain generalizability and clinical applicability.",
+      "evidence_strength": 90,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2206.04170",
+          "evidence_type": "stated_limitations",
+          "description": "Datasets are restricted to academic and research use, limiting generalizability to clinical settings; autoimmune dataset is geographically limited and specific to a disease variant; meta-data such as medical history not incorporated."
+        },
+        {
+          "paper_id": "openalex:W3074741277",
+          "evidence_type": "stated_limitations",
+          "description": "Limited availability of large, standardized, and centralized medical imaging datasets due to privacy and data management issues; delayed clinical translation due to regulatory, safety, economic, and user acceptance factors."
+        },
+        {
+          "paper_id": "openalex:W4392850630",
+          "evidence_type": "stated_limitations",
+          "description": "Retrospective study limits assessment of real-world clinical applicability; model reliability and reproducibility across diverse demographics need further evaluation; distribution shifts not assessed; integration of clinical data suggested as future work."
+        }
+      ],
+      "rationale": "Several papers explicitly state that current SSL methods are primarily validated on limited or specialized datasets without comprehensive clinical evaluation. The lack of integration of clinical metadata and demographic diversity further limits the translation of these methods to practical medical use. This gap is critical for advancing SSL from research to clinical deployment.",
+      "counter_evidence": [
+        {
+          "paper_id": "openalex:W4280619489",
+          "description": "Federated self-supervised learning shows improved generalization to out-of-distribution medical imaging data, indicating progress towards robustness in diverse clinical data."
+        }
+      ],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "What are the optimal strategies for integrating multi-modal data, including clinical metadata and non-imaging information, into self-supervised learning frameworks for medical imaging?",
+      "description": "Current self-supervised learning approaches largely focus on imaging data alone, often excluding valuable clinical metadata such as patient history and health conditions. Exploring methods to incorporate multi-modal data could enhance diagnostic accuracy and robustness of medical imaging models.",
+      "evidence_strength": 85,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2206.04170",
+          "evidence_type": "stated_limitations",
+          "description": "Meta-data such as medical history and existing health conditions were not incorporated into CASS, which may affect diagnostic accuracy."
+        },
+        {
+          "paper_id": "openalex:W4296027312",
+          "evidence_type": "stated_limitations",
+          "description": "Model limited to image data and does not incorporate other modalities or non-imaging data."
+        },
+        {
+          "paper_id": "openalex:W4392850630",
+          "evidence_type": "stated_limitations",
+          "description": "Integration of clinical data with imaging features was not performed but suggested as a future improvement."
+        }
+      ],
+      "rationale": "Multiple studies highlight the exclusion of clinical metadata and other non-imaging modalities in current SSL frameworks, suggesting a significant opportunity to improve model performance and clinical relevance by integrating such data.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can self-supervised learning methods be adapted and scaled for three-dimensional medical imaging modalities such as MRI and CT scans?",
+      "description": "Although SSL methods have shown promise in 2D medical imaging, their application to 3D modalities like MRI and CT remains underexplored. Challenges include adapting architectures, handling volumetric data, and scaling computational resources for effective 3D representation learning.",
+      "evidence_strength": 80,
+      "evidence": [
+        {
+          "paper_id": "openalex:W4296027312",
+          "evidence_type": "stated_limitations",
+          "description": "The approach has not been applied to three-dimensional imaging modalities like MRI or CT scans."
+        },
+        {
+          "paper_id": "arxiv:1804.03830",
+          "evidence_type": "stated_limitations",
+          "description": "Method evaluated only on three lung cancer micro-CT images, limiting generalizability; segmentation accuracy needs improvement."
+        }
+      ],
+      "rationale": "The explicit mention of limitations regarding 3D imaging modalities and the scarcity of studies applying SSL to volumetric data indicate a research gap in adapting SSL for 3D medical images.",
+      "counter_evidence": [
+        {
+          "paper_id": "openalex:W4287755086",
+          "description": "Contrastive learning methods have been applied to volumetric MRI datasets with novel global and local contrastive losses, showing improved segmentation performance."
+        },
+        {
+          "paper_id": "openalex:W3036968235",
+          "description": "Domain-specific contrasting strategies leveraging volumetric MRI data have improved segmentation performance, indicating some progress in 3D SSL applications."
+        }
+      ],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "What are effective methods to determine optimal stopping criteria and validation strategies for self-supervised pretraining in medical imaging?",
+      "description": "Determining when to stop training self-supervised models is challenging due to the lack of straightforward validation signals. Developing robust stopping criteria and validation methods tailored to medical imaging tasks is essential for efficient and effective SSL training.",
+      "evidence_strength": 75,
+      "evidence": [
+        {
+          "paper_id": "openalex:W3207924272",
+          "evidence_type": "stated_limitations",
+          "description": "Difficulty in determining ideal stopping conditions for pretext task training due to lack of simple validation signals."
+        }
+      ],
+      "rationale": "The literature acknowledges the challenge of identifying appropriate stopping points during SSL pretraining, which affects training efficiency and model performance. This issue remains largely unaddressed in medical imaging contexts.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can self-supervised learning be combined with active learning to further reduce annotation costs in medical imaging?",
+      "description": "While active learning and self-supervised learning independently aim to reduce annotation requirements, their combined use in medical imaging is not extensively explored. Investigating synergistic approaches could enhance label efficiency and model performance.",
+      "evidence_strength": 75,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2310.14230",
+          "evidence_type": "stated_limitations",
+          "description": "Survey discusses integration of active learning with self-supervised learning but does not provide comprehensive empirical studies or guidelines specific to medical imaging."
+        }
+      ],
+      "rationale": "The survey highlights the potential of combining active and self-supervised learning but indicates a lack of detailed empirical work and implementation guidelines specific to this integration in medical imaging.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "What are the impacts of dataset imbalance and heterogeneity on the performance and fairness of self-supervised learning models in medical imaging?",
+      "description": "Self-supervised learning methods often assume balanced datasets, but medical imaging data are frequently imbalanced and heterogeneous. Understanding how these factors affect model performance, fairness, and generalization is crucial for clinical deployment.",
+      "evidence_strength": 75,
+      "evidence": [
+        {
+          "paper_id": "openalex:W4367000428",
+          "evidence_type": "stated_limitations",
+          "description": "SSL methods perform poorly on unbalanced datasets due to an implicit uniform prior in the representation space."
+        },
+        {
+          "paper_id": "openalex:W4280619489",
+          "evidence_type": "stated_limitations",
+          "description": "Federated SSL improves robustness to non-IID data, highlighting challenges of data heterogeneity."
+        }
+      ],
+      "rationale": "The documented limitations regarding dataset imbalance and heterogeneity indicate a need for research focused on addressing these issues to improve SSL fairness and robustness in medical imaging.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    }
+  ],
+  "summary": "The candidate research gaps identified in the corpus up to the cutoff date highlight several underexplored areas in self-supervised learning (SSL) for medical imaging. Key gaps include the adaptation and validation of SSL methods in real-world clinical settings beyond academic datasets, integration of multi-modal data such as clinical metadata, and the extension of SSL techniques to three-dimensional imaging modalities like MRI and CT. Additional gaps concern the development of effective stopping criteria for SSL pretraining, combining SSL with active learning to reduce annotation costs, and addressing dataset imbalance and heterogeneity to improve model fairness and robustness. While some progress is noted, such as federated SSL improving generalization and robustness, these gaps remain critical for advancing SSL from research to clinical deployment.",
+  "methodology_note": "The final report was generated by merging textual candidate gaps with ranked graph hypotheses. No ranked graph hypotheses matched the textual candidates sufficiently to refine or strengthen them; thus, all final gaps originate from textual evidence alone. The report preserves all valid textual candidates and ranks them by evidence strength. The analysis is based on sources from arXiv and OpenAlex, considering 155 raw papers and 20 ranked papers.",
+  "sources_used": [
+    "arxiv",
+    "openalex"
+  ],
+  "papers_considered": 20
+}

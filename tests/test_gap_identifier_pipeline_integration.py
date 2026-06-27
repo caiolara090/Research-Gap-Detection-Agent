@@ -105,6 +105,7 @@ class RecordingStructuredLLM:
     def with_structured_output(
         self,
         schema: type,
+        **kwargs,
     ) -> "RecordingStructuredLLM":
         self.structured_output_calls.append(schema)
         return self

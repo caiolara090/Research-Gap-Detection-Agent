@@ -1,0 +1,119 @@
+{
+  "topic": "Long-term reliability of AI agents",
+  "cutoff_date": "2026-06-03",
+  "warnings": [],
+  "gaps": [
+    {
+      "research_question": "What novel evaluation frameworks and benchmarks can comprehensively assess AI agent reliability across diverse real-world tasks and dynamic environments?",
+      "description": "Current evaluations of AI agent reliability are limited by narrow task distributions, single benchmark scaffolds, and insufficient coverage of dynamic and emergent behaviors. There is a need for broader, multi-dimensional, and adaptive evaluation frameworks that reflect practical deployment scenarios and evolving agent capabilities.",
+      "evidence_strength": 95,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2602.16666",
+          "evidence_type": "stated_limitations",
+          "description": "Analysis covers only two benchmarks (\u0003b4-bench and GAIA), representing a narrow slice of practical tasks; evaluation uses a single scaffold per benchmark, limiting generalizability."
+        },
+        {
+          "paper_id": "arxiv:2511.11921",
+          "evidence_type": "stated_limitations",
+          "description": "Current traditional software reliability testing methods are insufficient for agentic AI systems due to their non-determinism and dynamic action spaces."
+        },
+        {
+          "paper_id": "arxiv:2606.04455",
+          "evidence_type": "stated_limitations",
+          "description": "MAC inherits limitations of repurposed object-level benchmarks, such as narrow task distributions."
+        }
+      ],
+      "rationale": "Multiple recent papers explicitly state the limitations of current benchmarks and testing methods in capturing the full spectrum of agent reliability, highlighting a critical gap in evaluation methodologies for long-term reliable AI agents.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can the resource-intensive nature of reliability mechanisms in agentic AI systems be effectively managed to ensure sustainable long-term reliability?",
+      "description": "Several papers acknowledge that implementing reliability mechanisms in agentic AI systems involves high computational overhead, energy consumption, and infrastructure costs, which may limit practical deployment and scalability. There is a lack of comprehensive research on optimizing these mechanisms to balance reliability with resource efficiency over long-term operation.",
+      "evidence_strength": 90,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2511.11921",
+          "evidence_type": "stated_limitations",
+          "description": "The paper acknowledges that agentic AI systems' reliability mechanisms are resource-intensive, involving high computational overhead, energy consumption, and infrastructure costs."
+        },
+        {
+          "paper_id": "arxiv:2605.23989",
+          "evidence_type": "stated_limitations",
+          "description": "Engineering overhead and usability loss arise from practical secret management methods like ephemeral credentials and continuous rotation, indicating resource and usability challenges in reliability mechanisms."
+        }
+      ],
+      "rationale": "The recurring recognition of resource intensity and engineering overhead in reliability mechanisms across independent recent studies indicates a significant gap in managing these costs for sustainable long-term reliability of AI agents.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can emergent and unpredictable behaviors in multi-agent AI systems be effectively monitored, controlled, and mitigated to maintain long-term reliability?",
+      "description": "Emergent behaviors in multi-agent AI systems pose significant challenges for predictability, monitoring, and debugging, which are critical for long-term reliability. Existing tools and methods struggle with the opacity and complexity of these behaviors, necessitating new approaches for system-level monitoring, redundancy, and self-healing.",
+      "evidence_strength": 90,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2511.11921",
+          "evidence_type": "stated_limitations",
+          "description": "Emergent behaviors are difficult to predict and reverse, posing challenges for traditional alignment and debugging tools."
+        },
+        {
+          "paper_id": "arxiv:2511.11921",
+          "evidence_type": "stated_limitations",
+          "description": "Difficulty of monitoring and tracing agentic AI systems due to opaque reasoning and complex interactions with external tools."
+        }
+      ],
+      "rationale": "The explicit recognition of emergent behavior challenges and monitoring difficulties in a recent comprehensive review indicates a significant unexplored area crucial for ensuring long-term reliability of agentic AI systems.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "What are effective methods to address the limitations of LLM-based AI agents related to outdated knowledge, hallucinations, and catastrophic forgetting to improve their long-term reliability?",
+      "description": "LLM-based AI agents face challenges including outdated or incorrect knowledge, hallucinations, and catastrophic forgetting during continual learning, which impact their reliability over time. There is a lack of robust solutions to mitigate these issues in deployed agentic systems.",
+      "evidence_strength": 85,
+      "evidence": [
+        {
+          "paper_id": "openalex:W4386794445",
+          "evidence_type": "stated_limitations",
+          "description": "Knowledge in LLMs can be outdated or incorrect, requiring retraining or editing methods; LLMs may generate hallucinations limiting use in factually rigorous tasks; catastrophic forgetting is a challenge in continual learning."
+        }
+      ],
+      "rationale": "The survey highlights multiple inherent limitations of LLM-based agents affecting reliability, with no comprehensive solutions yet, indicating a research gap in improving long-term reliability of these agents.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can decentralized digital identity and verifiable credentials be securely and efficiently integrated into AI agents to enhance trust and reliability across domains?",
+      "description": "While initial prototypes demonstrate feasibility of using decentralized identifiers (DIDs) and verifiable credentials (VCs) for AI agent trust, challenges remain in orchestration efficiency, policy compliance, and governance of trusted issuers. These issues limit practical deployment and long-term reliability of identity-based trust mechanisms.",
+      "evidence_strength": 80,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2511.02841",
+          "evidence_type": "stated_limitations",
+          "description": "Sole orchestration of security procedures by agents' LLMs leads to improvable completion rates and increased procedure duration; high token consumption and latency; assumptions about trust in ledger and issuers without governance solutions."
+        }
+      ],
+      "rationale": "The identified technical and governance limitations in a recent prototype system suggest that further research is needed to realize secure, efficient, and reliable decentralized identity integration for AI agents.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    }
+  ],
+  "summary": "The candidate research gaps identified in the corpus up to June 2026 reveal critical underexplored areas for ensuring the long-term reliability of AI agents. Key gaps include the need for novel, comprehensive evaluation frameworks that reflect real-world, dynamic tasks; strategies to manage the resource intensity of reliability mechanisms sustainably; methods to monitor and control emergent behaviors in multi-agent systems; solutions addressing inherent limitations of LLM-based agents such as outdated knowledge and hallucinations; and secure, efficient integration of decentralized digital identity for trust enhancement. No graph hypotheses directly matched or refined these textual gaps, indicating these questions remain primarily textually grounded. These gaps represent promising directions for future research to advance the robustness, trustworthiness, and practical deployment of reliable AI agents.",
+  "methodology_note": "The final report was produced by merging textual candidate research gaps extracted from recent literature with ranked graph hypotheses representing conceptual relationships. No graph-only hypotheses were included as final gaps, per domain rules. Each textual candidate was evaluated for overlap and compatibility with graph hypotheses; none matched sufficiently to refine or strengthen the textual gaps. The report preserves all valid textual candidates and ranks them by textual evidence strength, ensuring a faithful representation of underexplored questions in the analyzed corpus up to the cutoff date.",
+  "sources_used": [
+    "arxiv",
+    "openalex"
+  ],
+  "papers_considered": 20
+}

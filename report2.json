@@ -1,0 +1,189 @@
+{
+  "topic": "Long-term reliability of AI agents",
+  "cutoff_date": "2026-05-17",
+  "warnings": [],
+  "gaps": [
+    {
+      "research_question": "What are effective methods to balance trade-offs between utility, enforceability, privacy, and personalization fidelity in trustworthy agentic AI systems?",
+      "description": "Trade-offs exist between utility and enforceability in runtime policies, and between privacy and personalization fidelity in agentic AI systems. These trade-offs impact the design and deployment of trustworthy AI, yet comprehensive methods to balance them effectively remain underexplored.",
+      "evidence_strength": 80,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2605.23989",
+          "evidence_type": "stated_limitations",
+          "description": "Trade-offs exist between utility and enforceability in runtime policies, and between privacy and personalization fidelity."
+        }
+      ],
+      "rationale": "The explicit mention of these trade-offs as limitations in the comprehensive survey on trustworthy agentic AI highlights an important research gap in balancing competing demands for trustworthiness, privacy, and utility.",
+      "counter_evidence": [],
+      "origin": "textual_and_graph",
+      "matched_graph_hypothesis": {
+        "concepts": [
+          "fairness",
+          "privacy preserving personalization",
+          "safety",
+          "transparency"
+        ],
+        "missing_links": [
+          [
+            "fairness",
+            "privacy preserving personalization"
+          ],
+          [
+            "safety",
+            "transparency"
+          ]
+        ],
+        "avg_similarity": 0.8583175837993622,
+        "cross_community": true,
+        "edge_count": 4,
+        "overlap_penalty": 0,
+        "rarity": 2.1292982978540596,
+        "centrality": 24.5,
+        "future_bonus": 0,
+        "base_score": 4.3506516079832585,
+        "score": 4.3506516079832585,
+        "diversified_score": 3.1379887059874436,
+        "diversity_penalty": 7.25,
+        "ngram_penalty": 0
+      },
+      "graph_refinement": "The graph hypothesis highlights missing links between fairness and privacy preserving personalization, which aligns with the textual gap's focus on balancing privacy and personalization fidelity. This reinforces the importance of exploring trade-offs in trustworthy agentic AI systems."
+    },
+    {
+      "research_question": "How can safety evaluation methods for AI agent reliability be extended beyond current LLM-based judging to improve reliability and generalizability?",
+      "description": "Current safety evaluations for AI agent reliability often rely on LLM-based judging, which may have reliability concerns and limited generalizability. There is a need for more robust, diverse, and empirically validated safety evaluation methodologies that can better capture safety risks in varied real-world contexts.",
+      "evidence_strength": 85,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2602.16666",
+          "evidence_type": "stated_limitations",
+          "description": "Safety evaluation relies on LLM-based judging, which may have reliability concerns."
+        },
+        {
+          "paper_id": "arxiv:2605.23989",
+          "evidence_type": "stated_limitations",
+          "description": "Simulation and red teaming cannot fully enumerate open-world contexts, limiting coverage of reflective checks; end-to-end formal verification remains challenging due to probabilistic generation."
+        }
+      ],
+      "rationale": "Multiple papers explicitly state limitations of current safety evaluation approaches, particularly the reliance on LLM-based judging and the challenges in simulating open-world conditions, indicating a recurring not addressed gap in safety evaluation robustness and generalizability.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can cross-layer coordination mechanisms for agentic AI reliability be empirically validated and practically implemented in real-world dynamic environments?",
+      "description": "While cross-layer coordination and interdependency mapping are proposed to mitigate cascading failures and improve reliability in agentic AI systems, current work remains largely theoretical and lacks empirical validation and practical implementation strategies in real-world settings. The complexity and challenges of achieving global system-level monitoring and coordination, as well as resource constraints, remain open problems.",
+      "evidence_strength": 90,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2511.11921",
+          "evidence_type": "stated_limitations",
+          "description": "The chapter is a perspective and does not provide empirical validation of proposed solutions; complexity of implementing cross-layer coordination in real-world systems is acknowledged but not resolved; challenges in achieving global system-level monitoring and coordination are recognized as open problems; resource constraints and environmental impacts require further research."
+        }
+      ],
+      "rationale": "This gap is supported by explicit stated limitations in arxiv:2511.11921 highlighting the lack of empirical validation and unresolved challenges in implementing cross-layer coordination for reliability in agentic AI. The thematic coherence with answered questions about cascading failures and dynamic environment challenges strengthens the evidence.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can long-term reliability and robustness of multi-agent AI systems be evaluated and optimized under resource constraints and environmental impacts?",
+      "description": "While multi-agent AI systems face challenges such as unpredictable emergent behaviors and resource-intensive reliability mechanisms, methods to evaluate and optimize long-term reliability and robustness under practical constraints like energy availability and environmental impact are not fully developed.",
+      "evidence_strength": 85,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2511.11921",
+          "evidence_type": "stated_limitations",
+          "description": "Resource constraints and environmental impacts of reliability mechanisms are noted as significant challenges requiring further research."
+        }
+      ],
+      "rationale": "The stated limitations in arxiv:2511.11921 about resource constraints and environmental impacts in reliability mechanisms for agentic AI systems indicate a recurring not addressed gap in sustainable long-term reliability evaluation and optimization.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "What are the limitations and potential improvements in current evaluation benchmarks and metrics for AI agent reliability across diverse practical tasks and scaffolds?",
+      "description": "Current evaluations of AI agent reliability often use limited benchmarks and scaffolds, which may not generalize well to diverse practical tasks. There is a need to develop broader, more representative benchmarks and metrics to holistically assess reliability across varied real-world applications.",
+      "evidence_strength": 85,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2602.16666",
+          "evidence_type": "stated_limitations",
+          "description": "Analysis covers only two benchmarks, representing a narrow slice of practical tasks; evaluation uses a single scaffold per benchmark, which may not generalize to other scaffolds."
+        }
+      ],
+      "rationale": "The explicit stated limitations about narrow benchmark coverage and scaffold generalizability in arxiv:2602.16666 highlight a clear gap in comprehensive evaluation methodologies for AI agent reliability.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can debugging, supervision, and reliability testing tools for multi-agent systems in industrial and control applications be developed and validated for long-term operation?",
+      "description": "Agent programming in industrial applications currently lacks mature debugging and supervision tools and has not been tested for reliability and robustness under stress or long-term operation. Developing and validating such tools is critical for practical deployment and sustained reliability in industrial multi-agent systems.",
+      "evidence_strength": 80,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2006.05613",
+          "evidence_type": "stated_limitations",
+          "description": "The MAS approach lacks mature debugging and supervision tools; investigation did not test MAS reliability and robustness under stress or long-term operation."
+        }
+      ],
+      "rationale": "The explicit stated limitations in arxiv:2006.05613 about missing debugging and supervision tools and untested long-term reliability in industrial multi-agent systems indicate a concrete gap in practical reliability assurance methods.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can legal and socio-technical frameworks for AI agent identity and accountability be integrated to enhance long-term reliability and governance?",
+      "description": "While legal analyses propose concepts like Algorithmic Corporation for AI identity and accountability, integration with technical reliability frameworks and practical governance mechanisms remains underexplored, limiting comprehensive approaches to AI agent reliability and responsibility.",
+      "evidence_strength": 75,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2603.10028",
+          "evidence_type": "stated_limitations",
+          "description": "No explicit stated limitations but the paper focuses on legal and philosophical analysis without addressing integration with technical reliability frameworks."
+        },
+        {
+          "paper_id": "arxiv:2508.08544",
+          "evidence_type": "stated_limitations",
+          "description": "AI agents are not human and cannot be held liable like humans; law can be silent or ambiguous on AI agent situations; current value alignment training lacks attention to loyalty and disclosure; focus on ecommerce settings limits generalizability."
+        }
+      ],
+      "rationale": "The legal-focused papers highlight gaps in integrating legal identity and accountability concepts with technical reliability and governance, suggesting a gap in socio-technical frameworks for AI agent reliability.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can explainable AI (xAI) methods be improved or adapted to better support reliability and trustworthiness assessments of AI agents in complex, dynamic environments?",
+      "description": "Current xAI methods have limitations such as computational cost, domain specificity, lack of validation, and challenges in adapting to novel architectures. Improving or adapting xAI methods to effectively support reliability and trustworthiness assessments of AI agents remains an open research area.",
+      "evidence_strength": 80,
+      "evidence": [
+        {
+          "paper_id": "openalex:W4226108798",
+          "evidence_type": "stated_limitations",
+          "description": "Multiple limitations of current xAI methods including computational costs, domain specificity, lack of validation, and challenges adapting to novel architectures."
+        }
+      ],
+      "rationale": "The comprehensive overview of xAI methods and their limitations indicates a gap in applying explainability techniques to reliability and trustworthiness evaluation for AI agents in complex settings.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    }
+  ],
+  "summary": "The candidate research gaps identified in the corpus up to the cutoff date focus on several key challenges in the long-term reliability of AI agents. These include the need for empirical validation and practical implementation of cross-layer coordination mechanisms, extending safety evaluation methods beyond LLM-based judging, balancing trade-offs between utility, enforceability, privacy, and personalization fidelity, and developing sustainable evaluation and optimization methods under resource constraints. Additional gaps concern the development of debugging and supervision tools for industrial multi-agent systems, integration of legal and socio-technical frameworks for AI agent accountability, and improving explainable AI methods for reliability assessment. The graph hypotheses notably reinforce the importance of exploring trade-offs involving fairness, privacy preserving personalization, safety, and transparency in trustworthy agentic AI systems. These gaps represent promising directions for future research to enhance the robustness, trustworthiness, and governance of AI agents.",
+  "methodology_note": "The report was generated by merging textual candidate research gaps extracted from a curated set of papers with ranked graph hypotheses representing underexplored relations among key concepts. Only textual candidates were included as final gaps, with one gap refined by a matching graph hypothesis to strengthen its relevance. The ranking prioritized gaps supported by strong textual evidence and further refined by graph insights when available. The sources used include arxiv and openalex, considering 116 raw papers and 20 ranked papers with structured insights.",
+  "sources_used": [
+    "arxiv",
+    "openalex"
+  ],
+  "papers_considered": 116
+}

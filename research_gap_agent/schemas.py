@@ -6,9 +6,15 @@ below so that we get validation for free at every step.
 """
 
 from datetime import date
-from typing import Literal, Optional
+from typing import Any, Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    field_validator,
+    model_validator,
+)
 
 
 SourceName = Literal["arxiv", "openalex", "semantic_scholar"]
@@ -80,6 +86,8 @@ EvidenceType = Literal[
     "contrast",
 ]
 
+FusionOrigin = Literal["textual_only", "textual_and_graph"]
+
 
 class GapWarning(BaseModel):
     """A stable warning emitted while identifying gaps."""
@@ -108,6 +116,13 @@ class GapEvidence(BaseModel):
     evidence_type: EvidenceType
     description: str
 
+    @field_validator("evidence_type", mode="before")
+    @classmethod
+    def normalize_evidence_type(cls, value):
+        if value == "not_addressed":
+            return "recurring_not_addressed"
+        return value
+
 
 class IdentifiedGap(BaseModel):
     """A candidate research gap built from the extracted insights."""
@@ -120,6 +135,35 @@ class IdentifiedGap(BaseModel):
     evidence: list[GapEvidence] = Field(default_factory=list)
     rationale: str
     counter_evidence: list[CounterEvidence] = Field(default_factory=list)
+    origin: FusionOrigin | None = None
+    matched_graph_hypothesis: dict[str, Any] | None = None
+    graph_refinement: str | None = None
+
+    @model_validator(mode="after")
+    def validate_fusion_fields(self) -> "IdentifiedGap":
+        has_graph_match = self.matched_graph_hypothesis is not None
+        has_graph_refinement = bool(self.graph_refinement)
+
+        if self.origin is None:
+            if has_graph_match or has_graph_refinement:
+                raise ValueError(
+                    "graph fusion fields require an origin"
+                )
+            return self
+
+        if self.origin == "textual_only":
+            if has_graph_match or has_graph_refinement:
+                raise ValueError(
+                    "textual_only gaps must not include graph fusion fields"
+                )
+            return self
+
+        if not has_graph_match or not has_graph_refinement:
+            raise ValueError(
+                "textual_and_graph gaps require matched_graph_hypothesis "
+                "and graph_refinement"
+            )
+        return self
 
 
 class GapIdentificationResult(BaseModel):
@@ -143,3 +187,18 @@ class FinalReport(BaseModel):
     methodology_note: str
     sources_used: list[SourceName]
     papers_considered: int
+
+    @model_validator(mode="after")
+    def require_origin_on_final_gaps(self) -> "FinalReport":
+        missing_origin = [
+            gap.research_question
+            for gap in self.gaps
+            if gap.origin is None
+        ]
+        if missing_origin:
+            rendered = ", ".join(f"'{question}'" for question in missing_origin)
+            raise ValueError(
+                "FinalReport gaps must declare origin; missing for "
+                f"{rendered}"
+            )
+        return self

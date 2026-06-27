@@ -30,7 +30,7 @@ _Avoid_: listas separadas de metadados e extracoes
 
 **Forca de evidencia textual**:
 Pontuacao que expressa quao bem uma **Lacuna candidata atual** e sustentada pelas evidencias textuais do corpus observado.
-_Avoid_: probabilidade de verdade, certeza cientifica
+_Avoid_: probabilidade de verdade, certeza cientifica, metrica externa de avaliacao do agente
 
 **Contraevidencia textual**:
 Sinal no corpus observado que enfraquece ou limita uma **Lacuna candidata atual**.
@@ -95,6 +95,7 @@ _Avoid_: lacuna textual, cluster generico, tema amplo
 - Quando houver fusao, `matched_graph_hypothesis` preserva o dict inteiro da hipotese ranqueada usada e `graph_refinement` explica como ela refinou a pergunta textual. Em `textual_only`, ambos permanecem nulos.
 - A lista final deve priorizar **Lacunas candidatas finais** com origem textual_and_graph, depois textual_only; dentro de cada grupo, deve usar a forca do sinal disponivel.
 - A funcao central da agregacao final e fundir nichos achados pelo grafo com possiveis lacunas identificadas nos artigos, consolidando uma **Lacuna candidata final** quando os dois sinais apontam para uma direcao de pesquisa compativel.
+- A agregacao final deve ser descrita principalmente como uma etapa de fusao de evidencias; sua funcao de governanca surge das restricoes impostas a essa fusao, nao de uma revisao critica independente.
 - Um **Nicho do grafo** representa areas que parecem relevantes mas pouco exploradas em conjunto, servindo como contexto de fusao para possiveis lacunas identificadas nos artigos.
 - Quando uma **Lacuna candidata atual** e fundida com um **Nicho do grafo**, o resultado deve refinar a pergunta de pesquisa final em vez de apenas somar evidencias ou aumentar prioridade.
 - Um **Nicho do grafo** nao pode gerar sozinho uma **Lacuna candidata final**; ele so pode refinar ou fortalecer uma candidata sustentada por evidencia textual.
@@ -103,6 +104,7 @@ _Avoid_: lacuna textual, cluster generico, tema amplo
 - Na versao inicial, cada hipotese ranqueada produzida pelo grafo representa um **Nicho do grafo** para fins de agregacao e fornece diretamente seus conceitos, relacoes ausentes, sinais topologicos e pontuacoes.
 - A LLM do `aggregator` recebe somente as hipoteses ranqueadas do grafo; o resumo geral e as demais metricas agregadas do grafo nao participam da fusao inicial.
 - O match entre uma **Lacuna candidata atual** e um **Nicho do grafo** deve exigir sobreposicao ou equivalencia de conceitos centrais, compatibilidade com a relacao pouco explorada no grafo e uma justificativa de como o nicho refina a pergunta.
+- Um **Nicho do grafo** apenas genericamente relacionado ao tema nao basta para fusao; nesses casos, a candidata deve permanecer textual_only.
 - O relatorio final deve explicitar que as lacunas apresentadas sao candidatas: hipoteses de perguntas ainda nao exploradas no corpus analisado ate a **Data de corte**.
 - Cada **Lacuna candidata final** apresentada no relatorio deve incluir pergunta de pesquisa, origem da evidencia final, forca de evidencia textual, **Data de corte**, evidencias principais com artigos, nicho do grafo quando houver fusao, contraevidencias ou ressalvas, e justificativa curta.
 

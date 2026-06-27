@@ -4,14 +4,20 @@ Aggregator node (owner: Vitor).
 
 import logging
 
-from research_gap_agent.schemas import FinalReport
+from research_gap_agent.llm import get_llm
+from research_gap_agent.prompts.aggregator import (
+    build_aggregator_messages,
+    methodology_context,
+    ranked_graph_hypotheses,
+)
+from research_gap_agent.schemas import FinalReport, GapWarning
 from research_gap_agent.state import GraphState
 
 
 logger = logging.getLogger(__name__)
 
 
-def aggregator_node(state: GraphState) -> dict:
+def _missing_graph_hypotheses_report(state: GraphState) -> FinalReport:
     gap_identification = state.gap_identification
     if gap_identification is None:
         raise ValueError(
@@ -20,79 +26,89 @@ def aggregator_node(state: GraphState) -> dict:
             "empty analysis."
         )
 
-    ranked_papers_by_id = {
-        paper.id: paper for paper in state.ranked_papers
-    }
-    sources_used = sorted(
-        {
-            ranked_papers_by_id[insight.paper_id].source
-            for insight in state.extracted
-            if insight.paper_id in ranked_papers_by_id
-        }
-    )
-    insight_count = len(state.extracted)
-
-    graph_summary = (
-        state.graph_insight.summary if state.graph_insight else "n/a"
-    )
-    warning_codes = {
-        warning.code for warning in gap_identification.warnings
-    }
-    if "no_extracted_insights" in warning_codes:
-        summary = (
-            "Gap identification was not performed because no structured "
-            "article insights were available. "
-            f"Graph insight: {graph_summary}"
+    context = methodology_context(state)
+    warnings = [
+        warning.model_copy(deep=True)
+        for warning in gap_identification.warnings
+    ]
+    warnings.append(
+        GapWarning(
+            code="missing_ranked_graph_hypotheses",
+            message=(
+                "Aggregator did not run the LLM fusion step because no "
+                "ranked graph hypotheses were available."
+            ),
         )
-    else:
-        gap_count = len(gap_identification.gaps)
-        gap_label = "gap" if gap_count == 1 else "gaps"
-        summary = (
-            f"Found {gap_count} candidate {gap_label}. "
-            f"Graph insight: {graph_summary}"
-        )
-    if gap_identification.cutoff_date is None:
-        candidate_scope = "relative to the available corpus"
-    else:
-        candidate_scope = (
-            "relative to the corpus through "
-            f"{gap_identification.cutoff_date.isoformat()}"
-        )
-    source_count = len(sources_used)
-    source_label = "source" if source_count == 1 else "sources"
-    query_count = len(state.queries)
-    query_label = "query" if query_count == 1 else "queries"
-    raw_paper_count = len(state.raw_papers)
-    paper_label = "paper" if raw_paper_count == 1 else "papers"
-    insight_label = "insight" if insight_count == 1 else "insights"
-    ranked_paper_count = len(state.ranked_papers)
-    ranked_paper_label = (
-        "paper" if ranked_paper_count == 1 else "papers"
-    )
-    methodology_note = (
-        f"Candidate gaps are {candidate_scope}. "
-        f"Searched {source_count} {source_label} with "
-        f"{query_count} rewritten {query_label}; ranked top "
-        f"{ranked_paper_count} of {raw_paper_count} {paper_label}; "
-        f"analyzed {insight_count} structured {insight_label} from "
-        f"{ranked_paper_count} ranked {ranked_paper_label}."
     )
 
-    report = FinalReport(
+    return FinalReport(
         topic=state.initial_topic,
         cutoff_date=gap_identification.cutoff_date,
-        warnings=[
-            warning.model_copy(deep=True)
-            for warning in gap_identification.warnings
-        ],
-        gaps=[
-            gap.model_copy(deep=True)
-            for gap in gap_identification.gaps
-        ],
-        summary=summary,
-        methodology_note=methodology_note,
-        sources_used=sources_used,
-        papers_considered=insight_count,
+        warnings=warnings,
+        gaps=[],
+        summary=(
+            "Aggregation was not performed because ranked graph hypotheses "
+            "were unavailable."
+        ),
+        methodology_note=(
+            "Candidate gaps are reported only after textual candidates can "
+            "be compared with ranked graph hypotheses. "
+            f"Searched {len(context['sources_used'])} sources with "
+            f"{context['query_count']} rewritten queries; ranked top "
+            f"{context['ranked_papers']} of {context['raw_papers']} papers; "
+            f"analyzed {context['structured_insights']} structured insights."
+        ),
+        sources_used=context["sources_used"],
+        papers_considered=context["structured_insights"],
+    )
+
+
+def _with_deterministic_metadata(
+    report: FinalReport,
+    state: GraphState,
+) -> FinalReport:
+    gap_identification = state.gap_identification
+    if gap_identification is None:
+        return report
+
+    context = methodology_context(state)
+    return FinalReport.model_validate(
+        {
+            **report.model_dump(mode="python"),
+            "topic": state.initial_topic,
+            "cutoff_date": gap_identification.cutoff_date,
+            "sources_used": context["sources_used"],
+            "papers_considered": context["structured_insights"],
+        }
+    )
+
+
+def aggregator_node(state: GraphState) -> dict:
+    gap_identification = state.gap_identification
+    if gap_identification is None:
+        logger.info(
+            "aggregator skipped because gap_identifier has not written "
+            "gap_identification yet for topic=%r",
+            state.initial_topic,
+        )
+        return {}
+
+    if not ranked_graph_hypotheses(state):
+        report = _missing_graph_hypotheses_report(state)
+        return {"final_report": report}
+
+    messages = build_aggregator_messages(state)
+    llm = get_llm("aggregator").with_structured_output(
+        FinalReport,
+        method="function_calling",
+    )
+    report = llm.invoke(messages)
+    report = _with_deterministic_metadata(report, state)
+
+    logger.info(
+        "aggregator produced %d final candidates for topic=%r",
+        len(report.gaps),
+        state.initial_topic,
     )
 
     return {"final_report": report}

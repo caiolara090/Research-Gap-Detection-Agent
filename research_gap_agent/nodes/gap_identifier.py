@@ -153,7 +153,8 @@ def gap_identifier_node(state: GraphState) -> dict:
         state.extracted,
     )
     llm = get_llm("gap_identifier").with_structured_output(
-        GapIdentificationResult
+        GapIdentificationResult,
+        method="function_calling",
     )
     raw_result = llm.invoke(messages)
     validated_result = validate_gap_identification(

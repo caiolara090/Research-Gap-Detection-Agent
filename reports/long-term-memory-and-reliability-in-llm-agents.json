@@ -1,0 +1,131 @@
+{
+  "topic": "Long-term memory and reliability in LLM agents",
+  "cutoff_date": "2026-06-23",
+  "warnings": [],
+  "gaps": [
+    {
+      "research_question": "How can long-term memory systems for LLM agents be designed to efficiently handle multi-agent, multimodal, and richer social interaction scenarios beyond single-user, text-based dialogues?",
+      "description": "Current research on long-term memory in LLM agents primarily focuses on single-user, text-based dialogues and does not sufficiently address the challenges posed by multi-agent interactions, multimodal inputs, or complex social dynamics. This gap limits the applicability and robustness of memory systems in more realistic and interactive environments.",
+      "evidence_strength": 85,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2601.06377",
+          "evidence_type": "stated_limitations",
+          "description": "Evaluation is limited to single-user, text-based long-horizon dialogues and does not cover multi-agent, multimodal, or richer social interaction scenarios."
+        },
+        {
+          "paper_id": "openalex:W4386794445",
+          "evidence_type": "stated_limitations",
+          "description": "Challenges remain in understanding implied meanings and vague instructions in natural language, and scaling up the number of agents presents potential challenges needing further exploration."
+        }
+      ],
+      "rationale": "The limitation explicitly stated in arxiv:2601.06377 about evaluation scope combined with the survey insights from openalex:W4386794445 about challenges in multi-agent scaling and interaction indicate a recurring gap in addressing memory reliability and design in complex multi-agent and multimodal contexts.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "What are effective mechanisms to ensure robustness and security of long-term memory in LLM agents against sophisticated poisoning and laundering attacks?",
+      "description": "While several memory architectures focus on capacity, retrieval, and compression, securing long-term memory against poisoning attacks that manipulate or corrupt memory content remains underexplored. Formal models suggest origin-bound authority is necessary, but practical implementations and broader defense strategies require further investigation.",
+      "evidence_strength": 90,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2606.24322",
+          "evidence_type": "stated_limitations",
+          "description": "The guarantee depends on correct origin labeling and genuinely independent corroboration; fully compromised trusted tools remain a risk. Value attribution at fine-grained levels requires future work. The scenario set is focused and broadening task distribution is future work."
+        }
+      ],
+      "rationale": "The detailed formal modeling and empirical evaluation in arxiv:2606.24322 highlight the critical security challenges and the partial nature of current solutions, indicating a strong need for further research on robust, practical defenses for long-term memory poisoning in LLM agents.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can long-term memory systems for LLM agents effectively resolve contradictions and maintain consistency over very long dialogues and extended memory contexts?",
+      "description": "Contradiction resolution and consistency maintenance remain challenging in long-term memory for LLMs, especially as dialogue length and memory size increase. Existing benchmarks show weakest performance on contradiction resolution, and memory updating mechanisms are conservative or limited in handling latent inconsistencies.",
+      "evidence_strength": 88,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2510.27246",
+          "evidence_type": "stated_limitations",
+          "description": "Contradiction resolution remains a challenging open problem with weakest performance across methods."
+        },
+        {
+          "paper_id": "arxiv:2601.06377",
+          "evidence_type": "stated_limitations",
+          "description": "Memory self-evolution triggers are conservative and may miss latent inconsistencies or outdated knowledge not surfaced during retrieval."
+        }
+      ],
+      "rationale": "Multiple papers explicitly identify contradiction resolution as a key limitation and open challenge, with one noting conservative updating triggers that may miss inconsistencies, indicating a recurring and significant research gap in maintaining reliable, consistent long-term memory.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "What are scalable and efficient strategies for memory consolidation, selective forgetting, and maintenance in long-term LLM agent memory systems to balance capacity and retrieval efficiency?",
+      "description": "Long-term memory systems face challenges in maintaining capacity and retrieval efficiency, especially with multi-hop forgetting and cross-document consistency. Current approaches like write-time consolidation and periodic flushing introduce costs and limitations, and selective forgetting mechanisms are not fully resolved.",
+      "evidence_strength": 87,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2502.06975",
+          "evidence_type": "stated_limitations",
+          "description": "Slot-based external memory modules are capacity-limited and rely on forgetting mechanisms. Length generalization methods face eventual forgetting and limited capacity."
+        },
+        {
+          "paper_id": "arxiv:2606.10677",
+          "evidence_type": "stated_limitations",
+          "description": "Multi-hop selective forgetting cannot be fully resolved by write-time consolidation due to cross-document consistency challenges. Periodic consolidation introduces maintenance cost and depends on token thresholds and time windows."
+        }
+      ],
+      "rationale": "The recurring mention of capacity limits, forgetting challenges, and consolidation costs across independent papers indicates a strong need for scalable, efficient memory maintenance strategies that balance long-term storage and retrieval performance.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can LLM agents dynamically adapt and update user preference memory to reflect evolving behaviors without requiring fine-tuning?",
+      "description": "Adapting user preference memory dynamically during long-term interactions is crucial for personalized and responsive LLM agents. While some mechanisms combining sliding window and exponential moving averages show promise, broader exploration of dynamic, fine-tuning-free preference adaptation remains limited.",
+      "evidence_strength": 75,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2510.09720",
+          "evidence_type": "stated_limitations",
+          "description": ""
+        }
+      ],
+      "rationale": "The presence of a single paper addressing preference-aware memory update without stated limitations suggests this area is nascent and underexplored, warranting further research on dynamic preference adaptation mechanisms compatible with existing memory frameworks.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "What are the scalability limits and practical challenges of memory mechanisms that store and recall LLMs' internal thoughts instead of raw text for long-term memory?",
+      "description": "Mechanisms like TiM that store and recall LLM-generated thoughts rather than raw text show improvements in consistency and retrieval efficiency, but their scalability to extremely large memory sizes and dependence on thought quality remain unaddressed.",
+      "evidence_strength": 73,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2311.08719",
+          "evidence_type": "stated_limitations",
+          "description": "The paper does not explicitly address scalability to extremely large memory sizes beyond tested datasets. The approach relies on quality of self-generated inductive thoughts, which may vary with LLM capabilities."
+        }
+      ],
+      "rationale": "The explicit limitation about scalability and reliance on thought quality in arxiv:2311.08719 indicates a research gap in understanding and improving the scalability and robustness of thought-based memory mechanisms for LLM agents.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    }
+  ],
+  "summary": "The candidate research gaps identified in the analyzed corpus up to the cutoff date highlight several underexplored areas in long-term memory and reliability for LLM agents. Key gaps include designing memory systems for multi-agent and multimodal interactions, ensuring robustness against poisoning attacks, resolving contradictions over extended dialogues, scalable memory consolidation and forgetting, dynamic user preference adaptation, and scalability of thought-based memory mechanisms. No graph hypotheses directly matched or refined these textual gaps, so all final gaps remain textual_only candidates.",
+  "methodology_note": "The final report was generated by merging textual candidate gaps extracted from curated papers with ranked graph hypotheses representing conceptual relationships. No graph-only gaps were included, and graph hypotheses were used only to refine or strengthen textual candidates when applicable. The ranking prioritized textual candidates with higher evidence strength. The report preserves all valid textual candidates without semantic duplication and includes detailed evidence and rationale for each gap.",
+  "sources_used": [
+    "arxiv",
+    "openalex"
+  ],
+  "papers_considered": 20
+}

@@ -5,7 +5,7 @@ pipeline:
   request_timeout_s: 60
   max_workers: 8
   llm_max_concurrency: 2
-  use_graph_analyzer: false
+  use_graph_analyzer: true
 
 document_converter:
   provider_name: pymupdf
@@ -22,31 +22,26 @@ sources:
 
 llm:
   default:
-    provider: nvidia
-    model: deepseek-ai/deepseek-v4-pro
+    provider: openai
+    model: gpt-4.1-mini
     temperature: 0.3
-    base_url: https://integrate.api.nvidia.com/v1
 
   query_rewriter:
-    provider: nvidia
-    model: meta/llama-3.1-8b-instruct
-    temperature: 0.7
-    base_url: https://integrate.api.nvidia.com/v1
+    provider: openai
+    model: gpt-4.1-mini
+    temperature: 0.3
 
   insight_extractor:
-    provider: nvidia
-    model: meta/llama-3.1-8b-instruct
-    temperature: 0.2
-    base_url: https://integrate.api.nvidia.com/v1
+    provider: openai
+    model: gpt-4.1-mini
+    temperature: 0.3
 
   gap_identifier:
-    provider: nvidia
-    model: deepseek-ai/deepseek-v4-pro
+    provider: openai
+    model: gpt-4.1-mini
     temperature: 0.3
-    base_url: https://integrate.api.nvidia.com/v1
 
   aggregator:
-    provider: nvidia
-    model: deepseek-ai/deepseek-v4-pro
+    provider: openai
+    model: gpt-4.1-mini
     temperature: 0.3
-    base_url: https://integrate.api.nvidia.com/v1

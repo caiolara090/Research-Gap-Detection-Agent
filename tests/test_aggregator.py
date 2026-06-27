@@ -2,9 +2,10 @@ from datetime import date
 
 import pytest
 
-from research_gap_agent.nodes.aggregator import aggregator_node
+import research_gap_agent.nodes.aggregator as aggregator_module
 from research_gap_agent.schemas import (
     ExtractedInsights,
+    FinalReport,
     GapEvidence,
     GapIdentificationResult,
     GapWarning,
@@ -36,19 +37,47 @@ def _insight(paper_id: str) -> ExtractedInsights:
     )
 
 
-def _gap() -> IdentifiedGap:
-    return IdentifiedGap(
-        research_question="How do candidate effects change over time?",
-        description="Longitudinal effects remain insufficiently studied.",
-        evidence_strength=84,
-        evidence=[
+def _gap(**overrides) -> IdentifiedGap:
+    payload = {
+        "research_question": (
+            "How do candidate effects change over time?"
+        ),
+        "description": "Longitudinal effects remain insufficiently studied.",
+        "evidence_strength": 84,
+        "evidence": [
             GapEvidence(
                 paper_id="paper-1",
                 evidence_type="stated_limitations",
                 description="The study calls for longitudinal follow-up.",
             )
         ],
-        rationale="The available corpus repeatedly identifies this scope.",
+        "rationale": (
+            "The available corpus repeatedly identifies this scope."
+        ),
+    }
+    payload.update(overrides)
+    return IdentifiedGap(**payload)
+
+
+def _graph_insight() -> GraphInsight:
+    return GraphInsight(
+        summary="This summary must not be used by the aggregator prompt.",
+        disconnected_pairs=[("summary-only", "pair")],
+        raw={
+            "ranked_hypotheses": [
+                {
+                    "concepts": [
+                        "longitudinal effects",
+                        "AI agents",
+                    ],
+                    "missing_links": [
+                        ["longitudinal effects", "AI agents"]
+                    ],
+                    "score": 0.91,
+                }
+            ],
+            "graph_nodes": 123,
+        },
     )
 
 
@@ -72,199 +101,230 @@ def _state(gap_result: GapIdentificationResult | None) -> GraphState:
             _paper("paper-3", "semantic_scholar"),
         ],
         extracted=[_insight("paper-1")],
-        graph_insight=GraphInsight(summary="Two themes are disconnected."),
+        graph_insight=_graph_insight(),
         gap_identification=gap_result,
     )
 
 
-def test_aggregator_propagates_gap_identification_contract():
-    gap_result = GapIdentificationResult(
+class FakeStructuredLLM:
+    def __init__(self, response: FinalReport):
+        self.response = response
+        self.invoke_calls: list[list[tuple[str, str]]] = []
+
+    def invoke(self, messages: list[tuple[str, str]]) -> FinalReport:
+        self.invoke_calls.append(messages)
+        return self.response
+
+
+class FakeLLM:
+    def __init__(self, response: FinalReport):
+        self.structured_llm = FakeStructuredLLM(response)
+        self.structured_output_calls: list[type] = []
+
+    def with_structured_output(
+        self,
+        schema: type,
+        **kwargs,
+    ) -> FakeStructuredLLM:
+        self.structured_output_calls.append(schema)
+        return self.structured_llm
+
+
+def _report(gaps: list[IdentifiedGap], warnings=None) -> FinalReport:
+    return FinalReport(
+        topic="Longitudinal effects of AI agents",
         cutoff_date=date(2025, 4, 3),
+        warnings=warnings or [],
+        gaps=gaps,
+        summary="LLM-produced final report.",
+        methodology_note="Candidate gaps through the cutoff date.",
+        sources_used=["arxiv"],
+        papers_considered=1,
+    )
+
+
+def test_aggregator_calls_llm_for_structured_final_report(monkeypatch):
+    textual_gap = _gap()
+    final_gap = textual_gap.model_copy(
+        deep=True,
+        update={
+            "origin": "textual_and_graph",
+            "matched_graph_hypothesis": (
+                _graph_insight().raw["ranked_hypotheses"][0]
+            ),
+            "graph_refinement": (
+                "The graph niche sharpens the question around AI agents."
+            ),
+        },
+    )
+    llm_response = _report(
+        gaps=[final_gap],
         warnings=[
             GapWarning(
                 code="invalid_counter_evidence_reference",
-                message="One invalid counterevidence item was removed.",
+                message="Earlier warning was preserved.",
             )
         ],
-        gaps=[_gap()],
+    )
+    fake_llm = FakeLLM(llm_response)
+    requested_roles: list[str] = []
+
+    def fake_get_llm(role: str) -> FakeLLM:
+        requested_roles.append(role)
+        return fake_llm
+
+    monkeypatch.setattr(aggregator_module, "get_llm", fake_get_llm)
+    state = _state(
+        GapIdentificationResult(
+            cutoff_date=date(2025, 4, 3),
+            warnings=[
+                GapWarning(
+                    code="invalid_counter_evidence_reference",
+                    message="Earlier warning was preserved.",
+                )
+            ],
+            gaps=[textual_gap],
+        )
     )
 
-    report = aggregator_node(_state(gap_result))["final_report"]
+    output = aggregator_module.aggregator_node(state)
 
-    assert report.gaps == gap_result.gaps
-    assert report.cutoff_date == gap_result.cutoff_date
-    assert report.warnings == gap_result.warnings
-    assert "Found 1 candidate gap." in report.summary
-    assert "Graph insight: Two themes are disconnected." in report.summary
-    assert "relative to the corpus through 2025-04-03" in (
-        report.methodology_note
+    assert requested_roles == ["aggregator"]
+    assert fake_llm.structured_output_calls == [FinalReport]
+    assert len(fake_llm.structured_llm.invoke_calls) == 1
+    assert output == {"final_report": llm_response}
+
+
+def test_aggregator_uses_state_for_operational_report_metadata(monkeypatch):
+    final_gap = _gap(
+        origin="textual_only",
+        matched_graph_hypothesis=None,
+        graph_refinement=None,
     )
-    assert "1 source with 1 rewritten query" in report.methodology_note
-    assert "ranked top 3 of 3 papers" in report.methodology_note
-    assert (
-        "analyzed 1 structured insight from 3 ranked papers"
-        in report.methodology_note
+    llm_response = FinalReport(
+        topic="Wrong LLM topic",
+        cutoff_date=date(1999, 1, 1),
+        warnings=[],
+        gaps=[final_gap],
+        summary="LLM-produced final report.",
+        methodology_note="LLM-produced methodology.",
+        sources_used=[],
+        papers_considered=999,
     )
+    fake_llm = FakeLLM(llm_response)
+    monkeypatch.setattr(
+        aggregator_module,
+        "get_llm",
+        lambda role: fake_llm,
+    )
+    state = _state(
+        GapIdentificationResult(
+            cutoff_date=date(2025, 4, 3),
+            gaps=[_gap()],
+        )
+    )
+
+    report = aggregator_module.aggregator_node(state)["final_report"]
+
+    assert report.topic == "Longitudinal effects of AI agents"
+    assert report.cutoff_date == date(2025, 4, 3)
+    assert report.sources_used == ["arxiv"]
+    assert report.papers_considered == 1
+    assert report.summary == "LLM-produced final report."
+
+
+def test_aggregator_calls_llm_even_when_textual_gap_list_is_empty(monkeypatch):
+    llm_response = _report(gaps=[])
+    fake_llm = FakeLLM(llm_response)
+    monkeypatch.setattr(
+        aggregator_module,
+        "get_llm",
+        lambda role: fake_llm,
+    )
+    state = _state(
+        GapIdentificationResult(
+            cutoff_date=None,
+            warnings=[
+                GapWarning(
+                    code="no_extracted_insights",
+                    message="No structured insights were available.",
+                )
+            ],
+            gaps=[],
+        )
+    )
+
+    output = aggregator_module.aggregator_node(state)
+
+    assert output["final_report"].gaps == []
+    assert output["final_report"].cutoff_date is None
+    assert len(fake_llm.structured_llm.invoke_calls) == 1
+
+
+def test_aggregator_returns_empty_report_when_graph_hypotheses_are_missing(
+    monkeypatch,
+):
+    def fail_if_called(role: str):
+        raise AssertionError(f"LLM should not be called for {role}")
+
+    monkeypatch.setattr(aggregator_module, "get_llm", fail_if_called)
+    state = _state(
+        GapIdentificationResult(
+            cutoff_date=date(2025, 4, 3),
+            gaps=[_gap()],
+        )
+    ).model_copy(
+        deep=True,
+        update={
+            "graph_insight": GraphInsight(
+                summary="No hypotheses.",
+                raw={"ranked_hypotheses": []},
+            )
+        },
+    )
+
+    report = aggregator_module.aggregator_node(state)["final_report"]
+
+    assert report.gaps == []
+    assert report.cutoff_date == date(2025, 4, 3)
+    assert [
+        warning.code for warning in report.warnings
+    ] == ["missing_ranked_graph_hypotheses"]
+    assert "ranked graph hypotheses" in report.summary
     assert report.sources_used == ["arxiv"]
     assert report.papers_considered == 1
 
 
-def test_aggregator_accepts_valid_empty_gap_identification_result():
-    gap_result = GapIdentificationResult(
-        cutoff_date=None,
-        warnings=[
-            GapWarning(
-                code="no_extracted_insights",
-                message="No structured article insights were available.",
-            )
-        ],
-        gaps=[],
+def test_aggregator_preserves_existing_warnings_in_missing_graph_fallback(
+    monkeypatch,
+):
+    monkeypatch.setattr(
+        aggregator_module,
+        "get_llm",
+        lambda role: pytest.fail("LLM should not be called"),
     )
-
-    state = _state(gap_result).model_copy(
-        deep=True,
-        update={"extracted": []},
+    existing_warning = GapWarning(
+        code="missing_evidence",
+        message="A textual candidate was discarded.",
     )
+    state = _state(
+        GapIdentificationResult(
+            cutoff_date=date(2025, 4, 3),
+            warnings=[existing_warning],
+            gaps=[],
+        )
+    ).model_copy(deep=True, update={"graph_insight": None})
 
-    report = aggregator_node(state)["final_report"]
+    report = aggregator_module.aggregator_node(state)["final_report"]
 
-    assert report.gaps == []
-    assert report.cutoff_date is None
-    assert report.warnings == gap_result.warnings
-    assert report.summary == (
-        "Gap identification was not performed because no structured article "
-        "insights were available. Graph insight: Two themes are disconnected."
-    )
-    assert "Found 0 candidate gaps" not in report.summary
-    assert "relative to the available corpus" in report.methodology_note
-    assert (
-        "analyzed 0 structured insights from 3 ranked papers"
-        in report.methodology_note
-    )
-    assert report.sources_used == []
-    assert report.papers_considered == 0
+    assert report.warnings[0] == existing_warning
+    assert report.warnings[1].code == "missing_ranked_graph_hypotheses"
 
 
-def test_aggregator_counts_unmatched_insight_without_inventing_source():
-    gap_result = GapIdentificationResult(
-        cutoff_date=date(2025, 1, 1),
-        gaps=[],
-    )
-    state = _state(gap_result).model_copy(
-        deep=True,
-        update={"extracted": [_insight("missing-paper")]},
-    )
+def test_aggregator_skips_when_gap_identifier_has_not_finished(monkeypatch):
+    def fail_if_called(role: str):
+        raise AssertionError(f"LLM should not be called for {role}")
 
-    report = aggregator_node(state)["final_report"]
+    monkeypatch.setattr(aggregator_module, "get_llm", fail_if_called)
 
-    assert report.sources_used == []
-    assert report.papers_considered == 1
-    assert (
-        "analyzed 1 structured insight from 3 ranked papers"
-        in report.methodology_note
-    )
-
-
-def test_aggregator_uses_plural_candidate_gaps_for_multiple_results():
-    first_gap = _gap()
-    second_gap = first_gap.model_copy(
-        deep=True,
-        update={
-            "research_question": (
-                "Which populations remain underrepresented?"
-            )
-        },
-    )
-    gap_result = GapIdentificationResult(
-        cutoff_date=date(2025, 4, 3),
-        gaps=[first_gap, second_gap],
-    )
-
-    report = aggregator_node(_state(gap_result))["final_report"]
-
-    assert "Found 2 candidate gaps." in report.summary
-
-
-def test_aggregator_uses_singular_source_and_plural_queries():
-    gap_result = GapIdentificationResult(
-        cutoff_date=None,
-        gaps=[],
-    )
-    state = _state(gap_result).model_copy(
-        deep=True,
-        update={
-            "ranked_papers": [_paper("paper-1", "arxiv")],
-            "queries": [
-                SearchQuery(text="query one", rationale="First query."),
-                SearchQuery(text="query two", rationale="Second query."),
-            ],
-        },
-    )
-
-    report = aggregator_node(state)["final_report"]
-
-    assert "1 source with 2 rewritten queries" in report.methodology_note
-
-
-def test_aggregator_uses_singular_paper_for_ranked_and_raw_counts():
-    gap_result = GapIdentificationResult(
-        cutoff_date=None,
-        gaps=[],
-    )
-    paper = _paper("paper-1", "arxiv")
-    state = _state(gap_result).model_copy(
-        deep=True,
-        update={
-            "raw_papers": [paper],
-            "ranked_papers": [paper],
-        },
-    )
-
-    report = aggregator_node(state)["final_report"]
-
-    assert "ranked top 1 of 1 paper;" in report.methodology_note
-    assert (
-        "analyzed 1 structured insight from 1 ranked paper."
-        in report.methodology_note
-    )
-
-
-def test_aggregator_deep_copies_warnings_and_gaps_into_report():
-    gap_result = GapIdentificationResult(
-        cutoff_date=date(2025, 4, 3),
-        warnings=[
-            GapWarning(
-                code="missing_evidence",
-                message="A candidate was discarded.",
-            )
-        ],
-        gaps=[_gap()],
-    )
-
-    report = aggregator_node(_state(gap_result))["final_report"]
-
-    assert report.warnings is not gap_result.warnings
-    assert report.warnings[0] is not gap_result.warnings[0]
-    assert report.gaps is not gap_result.gaps
-    assert report.gaps[0] is not gap_result.gaps[0]
-    assert report.gaps[0].evidence[0] is not gap_result.gaps[0].evidence[0]
-
-    report.warnings[0].message = "Changed report warning."
-    report.gaps[0].description = "Changed report gap."
-    report.gaps[0].evidence[0].description = "Changed report evidence."
-
-    assert gap_result.warnings[0].message == "A candidate was discarded."
-    assert gap_result.gaps[0].description == (
-        "Longitudinal effects remain insufficiently studied."
-    )
-    assert gap_result.gaps[0].evidence[0].description == (
-        "The study calls for longitudinal follow-up."
-    )
-
-
-def test_aggregator_rejects_missing_gap_identification_result():
-    with pytest.raises(
-        ValueError,
-        match="gap_identification result is required",
-    ):
-        aggregator_node(_state(None))
+    assert aggregator_module.aggregator_node(_state(None)) == {}

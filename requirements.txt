@@ -18,6 +18,6 @@ markdownify
 scispacy
 sentence_transformers
 numpy
-community
+python-louvain
 tqdm
 networkx

@@ -1,0 +1,124 @@
+{
+  "topic": "Evaluation benchmarks for reliable autonomous AI agents",
+  "cutoff_date": "2026-06-03",
+  "warnings": [],
+  "gaps": [
+    {
+      "research_question": "What are effective methods to ensure privacy-preserving personalization and manage trust-utility trade-offs in autonomous AI agents?",
+      "description": "Privacy-preserving personalization and balancing trust with utility remain open research challenges in autonomous AI agents. Current surveys note the difficulty of fully enumerating open-world contexts for safety and privacy checks, indicating a need for novel evaluation metrics and benchmark designs to address these challenges.",
+      "evidence_strength": 80,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2605.23989",
+          "evidence_type": "stated_limitations",
+          "description": "Privacy-preserving personalization and trust\u001316utility trade-offs remain open research challenges."
+        }
+      ],
+      "rationale": "The 2026 survey on trustworthy agentic AI (arxiv:2605.23989) explicitly calls out privacy-preserving personalization and trust-utility trade-offs as unresolved issues, highlighting a gap in evaluation benchmarks and methods.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can evaluation benchmarks for autonomous AI agents be designed to comprehensively measure cost-effectiveness, reproducibility, and real-world utility beyond accuracy?",
+      "description": "Current evaluation benchmarks for autonomous AI agents predominantly focus on accuracy metrics, neglecting important factors such as cost-effectiveness, reproducibility, and alignment with real-world utility. There is a lack of standardized evaluation protocols and reporting methods, and human evaluation methods suffer from low inter-rater reliability and lack of standardization. This gap limits the ability to reliably assess agent performance in practical deployment scenarios.",
+      "evidence_strength": 95,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2503.12687",
+          "evidence_type": "stated_limitations",
+          "description": "Current agent benchmarks focus narrowly on accuracy, neglecting cost-effectiveness and reproducibility."
+        },
+        {
+          "paper_id": "arxiv:2503.12687",
+          "evidence_type": "stated_limitations",
+          "description": "Lack of standardized evaluation protocols and reporting undermines reproducibility."
+        },
+        {
+          "paper_id": "arxiv:2503.12687",
+          "evidence_type": "stated_limitations",
+          "description": "Human evaluation methods lack standardization and have low inter-rater reliability."
+        },
+        {
+          "paper_id": "arxiv:2503.12687",
+          "evidence_type": "stated_limitations",
+          "description": "Gap exists between benchmark performance and real-world utility of AI agents."
+        }
+      ],
+      "rationale": "The 2025 comprehensive review (arxiv:2503.12687) explicitly states multiple limitations in current evaluation benchmarks, emphasizing narrow focus on accuracy and lack of reproducibility and standardization. This is a foundational issue affecting reliable autonomous AI agent evaluation and is not contradicted by other papers, making it a strong candidate for further research.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can privacy evaluation benchmarks be extended beyond web navigation scenarios to cover broader autonomous agentic contexts?",
+      "description": "Current privacy leakage evaluation benchmarks for autonomous AI agents focus primarily on web navigation tasks and do not encompass other agentic scenarios. There is a need to develop privacy benchmarks that address diverse agentic applications and improve mitigation strategies without degrading task performance.",
+      "evidence_strength": 85,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2503.09780",
+          "evidence_type": "stated_limitations",
+          "description": "The benchmark currently focuses on web interaction scenarios and does not cover agentic scenarios beyond web navigation."
+        }
+      ],
+      "rationale": "The 2025 AgentDAM benchmark paper (arxiv:2503.09780) explicitly notes its limitation to web navigation scenarios, indicating a gap in privacy evaluation for broader autonomous agent contexts. This is a specific and actionable research gap.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can evaluation benchmarks for autonomous AI agents incorporate comprehensive metrics for spatial planning, creativity, and commonsense reasoning with standardized and scalable protocols?",
+      "description": "Benchmarks assessing spatial planning abilities of AI agents reveal severe limitations in current models' spatial understanding and reasoning. Creativity and commonsense evaluations rely on subjective human or critic model scoring, lacking standardization. There is a need for scalable, standardized evaluation protocols that robustly measure these complex capabilities.",
+      "evidence_strength": 85,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2505.20148",
+          "evidence_type": "stated_limitations",
+          "description": "Evaluation of creativity is subjective and relies on human or critic model scoring, which may lack standardization."
+        },
+        {
+          "paper_id": "arxiv:2505.20148",
+          "evidence_type": "stated_limitations",
+          "description": "Current MLLM-based agents show severe limitations in converting textual spatial plans into executable 3D blueprints."
+        }
+      ],
+      "rationale": "The MineAnyBuild benchmark paper (arxiv:2505.20148) highlights both the technical limitations of agents in spatial planning and the subjective nature of creativity evaluation, pointing to the need for improved, standardized benchmarks.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "What new testing and evaluation paradigms can effectively assess reliability and emergent behaviors in agentic AI systems operating in dynamic and multi-agent environments?",
+      "description": "Existing reliability testing methods from traditional software are insufficient for agentic AI systems, which exhibit cascading failures, unpredictable emergent behaviors, and operate in dynamic environments. There is a need for novel testing frameworks that incorporate cross-layer coordination, real-time adaptation, and multi-dimensional reliability metrics to better capture these challenges.",
+      "evidence_strength": 90,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2511.11921",
+          "evidence_type": "stated_limitations",
+          "description": "Traditional software reliability testing methods are insufficient for agentic AI systems, necessitating new paradigms."
+        },
+        {
+          "paper_id": "arxiv:2511.11921",
+          "evidence_type": "stated_limitations",
+          "description": "The chapter is a perspective and does not provide empirical validation of proposed solutions."
+        }
+      ],
+      "rationale": "The 2025 perspective paper (arxiv:2511.11921) highlights the insufficiency of traditional reliability testing methods for agentic AI and calls for new evaluation paradigms. The lack of empirical validation indicates this area remains open for research and practical development.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    }
+  ],
+  "summary": "The candidate research gaps identified in the analyzed corpus up to June 2026 highlight critical underexplored areas in evaluation benchmarks for reliable autonomous AI agents. Key gaps include the need for comprehensive benchmarks that measure cost-effectiveness, reproducibility, and real-world utility beyond accuracy; novel testing paradigms for reliability and emergent behaviors in dynamic multi-agent environments; expansion of privacy evaluation benchmarks beyond web navigation scenarios; standardized and scalable protocols for assessing spatial planning, creativity, and commonsense reasoning; and effective methods for privacy-preserving personalization and managing trust-utility trade-offs. These gaps are supported by strong textual evidence from recent papers and remain unaddressed by the current literature and graph hypotheses, indicating promising directions for future research.",
+  "methodology_note": "The final report was generated by merging high-confidence textual candidate research gaps with ranked graph hypotheses. No graph-only gaps were included, as per domain rules. The graph hypotheses were reviewed for concept overlap and relation compatibility but did not produce refinements strong enough to alter the textual gaps. The report preserves all valid textual candidates without semantic duplication and ranks them by textual evidence strength. The methodology ensures that the gaps represent candidates observed in the corpus up to the specified cutoff date.",
+  "sources_used": [
+    "arxiv",
+    "openalex"
+  ],
+  "papers_considered": 20
+}

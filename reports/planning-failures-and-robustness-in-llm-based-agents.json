@@ -1,0 +1,18 @@
+{
+  "topic": "Planning failures and robustness in LLM-based agents",
+  "cutoff_date": "2026-06-12",
+  "warnings": [
+    {
+      "code": "missing_ranked_graph_hypotheses",
+      "message": "Aggregator did not run the LLM fusion step because no ranked graph hypotheses were available."
+    }
+  ],
+  "gaps": [],
+  "summary": "Aggregation was not performed because ranked graph hypotheses were unavailable.",
+  "methodology_note": "Candidate gaps are reported only after textual candidates can be compared with ranked graph hypotheses. Searched 2 sources with 5 rewritten queries; ranked top 20 of 143 papers; analyzed 20 structured insights.",
+  "sources_used": [
+    "arxiv",
+    "openalex"
+  ],
+  "papers_considered": 20
+}

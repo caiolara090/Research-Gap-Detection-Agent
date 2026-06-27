@@ -1,0 +1,104 @@
+{
+  "topic": "Runtime monitoring and safety guardrails for autonomous AI agents",
+  "cutoff_date": "2026-06-17",
+  "warnings": [],
+  "gaps": [
+    {
+      "research_question": "How can adaptive and data-driven predicate abstractions improve the accuracy and reliability of probabilistic runtime monitoring for autonomous AI agents?",
+      "description": "Current probabilistic runtime monitoring approaches like ProbGuard rely on heuristic predicate abstractions that may omit latent dependencies, leading to biased risk estimates and variability in risk predictions. There is a need to explore adaptive, data-driven predicate abstraction methods and online refinement techniques to capture essential latent dependencies and maintain sound probabilistic reasoning under model-policy mismatch and stochastic agent behavior.",
+      "evidence_strength": 90,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2508.00500",
+          "evidence_type": "stated_limitations",
+          "description": "ProbGuard's heuristic predicate abstraction may fail to capture essential latent dependencies, causing biased risk estimates. Adaptive refinement and data-driven abstractions are proposed as future work."
+        }
+      ],
+      "rationale": "The limitation is explicitly stated by the authors of ProbGuard, highlighting a key challenge in runtime monitoring accuracy. This gap is unique and not addressed by other works in the corpus, indicating a promising research direction to improve probabilistic monitoring reliability.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can runtime enforcement mechanisms for autonomous AI agents be synthesized with formal guarantees to ensure safe agent behavior after interventions?",
+      "description": "While runtime monitoring approaches can predict safety violations and enforce heuristic interventions, current enforcement actions do not guarantee safe agent behavior. Synthesizing enforcement plans with formal safety guarantees remains an open challenge to ensure that interventions lead to provably safe outcomes.",
+      "evidence_strength": 85,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2508.00500",
+          "evidence_type": "stated_limitations",
+          "description": "Current enforcement actions in ProbGuard do not guarantee safe agent behavior; synthesizing enforcement plans with formal guarantees is future work."
+        },
+        {
+          "paper_id": "arxiv:1612.05030",
+          "evidence_type": "stated_limitations",
+          "description": "Runtime enforcement algorithms for synchronous reactive systems are limited to prefix-closed safety properties and do not address valued inputs/outputs or distributed enforcement, indicating gaps in enforcement guarantees."
+        }
+      ],
+      "rationale": "Multiple papers highlight limitations in enforcement mechanisms, emphasizing the need for formal synthesis of enforcement with guarantees. This gap is critical for transitioning from monitoring to assured runtime safety enforcement.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can runtime verification frameworks be extended to support incremental verification and multi-agent system analysis for autonomous AI agents?",
+      "description": "Current runtime verification frameworks like AgentGuard require manual discrete state space definitions and periodic full model re-verification, which introduces overhead. Additionally, they lack support for stochastic games and multi-agent system analysis, limiting their applicability to complex autonomous AI scenarios involving multiple agents.",
+      "evidence_strength": 80,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2509.23864",
+          "evidence_type": "stated_limitations",
+          "description": "AgentGuard requires manual discrete state space definition, periodic full model re-verification causing overhead, lacks incremental verification algorithms, and does not support stochastic games or multi-agent system analysis."
+        }
+      ],
+      "rationale": "The stated limitations in a recent runtime verification framework indicate a clear research gap in improving efficiency and extending capabilities to multi-agent contexts, which is essential given the prevalence of multi-agent AI systems.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "What are effective methods to integrate semantic content governance with tool call governance in autonomous AI agents to prevent prompt injection and unsafe behaviors?",
+      "description": "Current capability governance frameworks like AgentWarden effectively control tool calls but do not govern the semantic content of agent responses. Tool-level governance alone is insufficient to fully prevent prompt injection attacks at the LLM reasoning level, indicating a gap in comprehensive runtime governance that includes semantic output filtering.",
+      "evidence_strength": 80,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2604.11839",
+          "evidence_type": "stated_limitations",
+          "description": "AgentWarden does not govern semantic content of agent responses, only tool calls. Tool-level governance is necessary but insufficient to fully prevent prompt injection attacks at the LLM reasoning level."
+        }
+      ],
+      "rationale": "The explicit limitation highlights a critical gap in runtime governance for autonomous AI agents, suggesting research into integrated semantic and tool call governance mechanisms.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can runtime safety guardrails for autonomous AI agents be generalized to handle dynamic and evolving safety specifications reflecting diverse stakeholder needs?",
+      "description": "Current control-theoretic guardrails for generative AI safety are computed for fixed safety specifications and do not generalize to test-time safety specifications that may change according to different stakeholder requirements. Research is needed to develop adaptive guardrails that can accommodate evolving safety criteria in real-world deployments.",
+      "evidence_strength": 75,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2510.13727",
+          "evidence_type": "stated_limitations",
+          "description": "Control-theoretic guardrails are computed for fixed safety specifications and do not generalize to test-time safety specifications reflecting different stakeholder needs."
+        }
+      ],
+      "rationale": "This limitation is explicitly noted and represents a practical challenge for deploying runtime guardrails in diverse real-world settings where safety requirements may evolve or differ across stakeholders.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    }
+  ],
+  "summary": "The candidate research gaps identified in the corpus up to the cutoff date focus on critical challenges in runtime monitoring and safety guardrails for autonomous AI agents. Key gaps include the need for adaptive and data-driven predicate abstractions to improve probabilistic runtime monitoring accuracy, formal synthesis of runtime enforcement mechanisms with safety guarantees, extensions of runtime verification frameworks to support incremental and multi-agent analyses, integration of semantic content governance with tool call governance to prevent prompt injection attacks, and generalization of runtime safety guardrails to handle dynamic, evolving safety specifications reflecting diverse stakeholder needs. These gaps are supported by explicit stated limitations in recent papers and represent promising directions for future research to enhance the reliability, safety, and governance of autonomous AI systems.",
+  "methodology_note": "The final report was generated by merging textual candidate research gaps extracted from a curated corpus of papers with ranked graph hypotheses representing conceptual relationships. Only textual candidates were included as final gaps, as the graph hypotheses did not provide direct refinements or matches to the specific research questions. The gaps are presented with their supporting evidence and rationales, preserving the original textual insights without introducing graph-only gaps, in accordance with domain rules.",
+  "sources_used": [
+    "arxiv",
+    "openalex"
+  ],
+  "papers_considered": 20
+}

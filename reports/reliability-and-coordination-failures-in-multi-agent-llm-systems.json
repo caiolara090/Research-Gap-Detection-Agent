@@ -1,0 +1,88 @@
+{
+  "topic": "Reliability and coordination failures in multi-agent LLM systems",
+  "cutoff_date": "2026-03-02",
+  "warnings": [
+    {
+      "code": "invalid_evidence_reference",
+      "message": "Discarded candidate gap 'How can multi-agent LLM systems effectively implement selective forgetting and knowledge revision to improve long-term reliability and adaptability?' because evidence referenced unknown paper_id 'openalex:W439159159'."
+    },
+    {
+      "code": "invalid_evidence_reference",
+      "message": "Discarded candidate gap 'What are effective methods to mitigate hallucination and cascading misinformation in multi-agent LLM systems to enhance reliability?' because evidence referenced unknown paper_id 'openalex:W439159159'."
+    },
+    {
+      "code": "invalid_evidence_reference",
+      "message": "Discarded candidate gap 'How can multi-agent LLM systems be scaled efficiently to handle large numbers of agents without prohibitive computational costs, especially considering pairwise interaction costs?' because evidence referenced unknown paper_id 'openalex:W439159159'."
+    }
+  ],
+  "gaps": [
+    {
+      "research_question": "What architectural and algorithmic approaches can improve tool invocation control and robustness in multi-agent LLM systems beyond delegating tool use entirely to LLMs?",
+      "description": "Current multi-agent LLM frameworks delegate tool invocation entirely to the LLM without architectural control, which limits evaluation and robustness of tool use, especially under schema-constrained planning interfaces that cause high formatting failure rates.",
+      "evidence_strength": 85,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2602.03128",
+          "evidence_type": "stated_limitations",
+          "description": "Current frameworks delegate tool invocation entirely to the LLM without architectural control, limiting tool-use evaluation."
+        },
+        {
+          "paper_id": "arxiv:2602.03128",
+          "evidence_type": "stated_limitations",
+          "description": "Schema-constrained planning interfaces cause high formatting failure rates, reducing robustness and scalability."
+        }
+      ],
+      "rationale": "The limitations described in arxiv:2602.03128 highlight that tool invocation is not architecturally managed and planning interfaces are brittle, suggesting a research gap in developing architectural or algorithmic controls to improve tool use robustness and evaluation in multi-agent LLM systems.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "How can decentralized collaboration mechanisms be designed and optimized for multi-agent LLM systems to improve scalability and reduce latency compared to centralized hierarchical approaches?",
+      "description": "Existing multi-agent LLM collaboration frameworks often focus on centralized hierarchical collaboration, with decentralized mechanisms noted as future work, indicating a gap in understanding and optimizing decentralized multi-agent coordination.",
+      "evidence_strength": 80,
+      "evidence": [
+        {
+          "paper_id": "arxiv:2412.05449",
+          "evidence_type": "stated_limitations",
+          "description": "Current system focuses on centralized hierarchical collaboration; decentralized mechanisms are future work."
+        }
+      ],
+      "rationale": "The explicit limitation in arxiv:2412.05449 about the current focus on centralized hierarchical collaboration and the need for decentralized approaches points to a research gap in decentralized multi-agent LLM coordination mechanisms.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    },
+    {
+      "research_question": "What are effective approaches to incorporate heterogeneous agent teams and human-agent hybrid teams in multi-agent LLM collaboration to improve performance and trust?",
+      "description": "Current evaluations often focus on homogeneous agent teams and do not explore heterogeneous or human-agent hybrid teams, limiting understanding of collaboration dynamics and trust in mixed-agent settings.",
+      "evidence_strength": 75,
+      "evidence": [
+        {
+          "paper_id": "openalex:W4389523767",
+          "evidence_type": "recurring_not_addressed",
+          "description": "Performance of LLM-based agents in heterogeneous teams or human-agent hybrid teams is not evaluated."
+        },
+        {
+          "paper_id": "openalex:W4389523767",
+          "evidence_type": "stated_limitations",
+          "description": "The team consists of three agents with homogeneous policies, not exploring heterogeneous or human-agent teams."
+        }
+      ],
+      "rationale": "The lack of evaluation and exploration of heterogeneous and human-agent hybrid teams in multi-agent LLM collaboration points to a research gap in designing and assessing such mixed teams for improved collaboration and trust.",
+      "counter_evidence": [],
+      "origin": "textual_only",
+      "matched_graph_hypothesis": null,
+      "graph_refinement": null
+    }
+  ],
+  "summary": "The candidate research gaps identified in the analyzed corpus up to the cutoff date focus on improving architectural and algorithmic controls for tool invocation robustness, designing decentralized collaboration mechanisms to enhance scalability and latency, and incorporating heterogeneous and human-agent hybrid teams to improve performance and trust in multi-agent LLM systems. No ranked graph hypotheses matched or refined these textual gaps, so all final gaps remain textual-only candidates.",
+  "methodology_note": "Candidate research gaps were identified by comparing textual candidate gaps with ranked graph hypotheses. No graph hypotheses matched the textual candidates in concept overlap and underexplored relations, so final gaps are preserved as textual-only. Evidence strength and limitations from source papers were used to rank and validate gaps.",
+  "sources_used": [
+    "arxiv",
+    "openalex"
+  ],
+  "papers_considered": 20
+}
